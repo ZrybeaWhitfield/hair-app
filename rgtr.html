@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/public/css/stylesRgtr.css" />
+  </head>
+
+  <body>
+    <div class="container">
+
+      <div class="card">
+        <div class="logSignCard" id="card">
+          <div class="logCard">
+            <h2>Login</h2>
+            <form >
+              <input type="email" class="input-box" placeholder="Your Email" required>
+              <input type="password" class="input-box" placeholder="Your Password" required>
+              <button type="submit" class="submit-btn"> Submit</button>
+              <input type="checkbox"><span>Remember me</span>
+            </form>
+            <button type="button" class="btn" onclick="openSign()">I'm New Here</button>
+            <a href="">Forgot Password</a>
+          </div>
+
+          <div class="signCard">
+          <h2>SignUp</h2>
+            <form >
+              <input type="text" class="input-box" placeholder="Your Name" required>
+              <input type="email" class="input-box" placeholder="Your Email" required>
+              <input type="password" class="input-box" placeholder="New Password" required>
+              <input type="password" class="input-box" placeholder="Comfirm Password" required>
+              <button type="submit" class="submit-btn">Submit</button>
+            </form>
+            <button type="button" class="btn" onclick="openLog()">I've an account</button>
+            <a href="">Forgot Password</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let card=document.getElementById("card");
+      function openSign(){
+        card.style.transform="rotateY(-180deg)";
+      }
+      function openLog(){
+        card.style.transform="rotateY(0deg)";
+      }
+
+    </script>
+
+  </body>
+</html>
