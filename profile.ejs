@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="font-awesome.min.css">
+    <link rel="stylesheet" href="public/css/">
+    <title>Hair Share</title>
+</head>
+<body>
+ <h1><a href="/feed" class="btn btn-default btn-sm">Feed</a></h1> 
+    <ul id="myPosts">
+        <% for(var i=0; i<posts.length; i++) { %>
+          <% if( posts[i].user.toString() == user._id.toString()) { %>
+            <li class="post">
+              <a class="link" href="/post?id=<%=posts[i]._id%>"><img class="picture" src="<%=posts[i].image %>"></a>
+              <span class="caption"><%= posts[i].caption %></span>
+              <button><i class="fa fa-trash" style="color: black; font-size: 120px; border: 20px solid rgb(249, 249, 249);"></i></button>
+            </li>
+        <% } %>
+      <% } %>
+    </ul>
+    <script src="main.js"></script>
+</body>
+
+</html>
