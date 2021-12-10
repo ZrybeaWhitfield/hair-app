@@ -1,91 +1,141 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hair App</title>
-  </head>
-  <body>
-    <form class="" action="/userPreferences" method="post">
-      <!-- QUESTION: 1 -->
-
-
-      <section>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hair App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <section class="container">
+    <form class="card" action="/userPreferences" method="post">
+      <section class="questions">
         <p>Is your hair:</p>
-        <input type="radio" name="ques1" value="">
-        <label for="ques1">Straight</label>
-        <input type="radio" name="ques1" value="">
-        <label for="ques1">Wavy</label>
-        <input type="radio" name="ques1" value="">
-        <label for="ques1">Curly</label>
-        <input type="radio" name="ques1" value="">
-        <label for="ques1">Coily</label>
-        <button type="button" name="button">Next</button>
+        <div class="form-group">
+          <input type="radio" name="ques1" value="">
+          <label for="ques1">Straight</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques1" value="">
+          <label for="ques1">Wavy</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques1" value="">
+          <label for="ques1">Curly</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques1" value="">
+          <label for="ques1">Coily</label>
+        </div>
+        <button class="nextQues btn btn-outline-secondary" type="button" name="button">Next</button>
       </section>
 
-      <!-- QUESTION: 2 -->
-      <section>
+
+      <section class="hide questions">
         <p>What is your hair density:</p>
-        <input type="radio" name="ques2" value="">
-        <label for="ques2">Low</label>
-        <input type="radio" name="ques2" value="">
-        <label for="ques2">Medium</label>
-        <input type="radio" name="ques2" value="">
-        <label for="ques2">High</label>
-        <button type="button" name="button">Next</button>
+        <div class="form-group">
+          <input type="radio" name="ques2" value="">
+          <label for="ques2">Low</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques2" value="">
+          <label for="ques2">Medium</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques2" value="">
+          <label for="ques2">High</label>
+        </div>
+        <button class="nextQues btn btn-outline-secondary" type="button" name="button">Next</button>
       </section>
 
-      <!-- QUESTION: 3 -->
-      <section>
+
+      <section class="hide questions">
         <p>Hair porosity:</p>
-        <input type="radio" name="ques3" value="">
-        <label for="ques3">Low</label>
-        <input type="radio" name="ques3" value="">
-        <label for="ques3">Medium</label>
-        <input type="radio" name="ques3" value="">
-        <label for="ques3">High</label>
-        <button type="button" name="button">Next</button>
+        <div class="form-group">
+          <input type="radio" name="ques3" value="">
+          <label for="ques3">Low</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques3" value="">
+          <label for="ques3">Medium</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques3" value="">
+          <label for="ques3">High</label>
+        </div>
+        <button class="nextQues btn btn-outline-secondary" type="button" name="button">Next</button>
       </section>
 
-      <!-- QUESTION: 4 -->
-      <section>
+
+      <section class="hide questions">
         <p>Hair Length:</p>
-        <input type="radio" name="ques4" value="">
-        <label for="ques4">Short</label>
-        <input type="radio" name="ques4" value="">
-        <label for="ques4">Chin Length</label>
-        <input type="radio" name="ques4" value="">
-        <label for="ques4">Shoulder Length</label>
-        <input type="radio" name="ques4" value="">
-        <label for="ques4">Long</label>
-        <button type="button" name="button">Next</button>
+        <div class="form-group">
+          <input type="radio" name="ques4" value="">
+          <label for="ques4">Short</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques4" value="">
+          <label for="ques4">Chin Length</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques4" value="">
+          <label for="ques4">Shoulder Length</label>
+        </div>
+        <div class="form-group">
+          <input type="radio" name="ques4" value="">
+          <label for="ques4">Long</label>
+        </div>
+        <button class="nextQues btn btn-outline-secondary" type="button" name="button">Next</button>
       </section>
 
-      <!-- QUESTION: 5 -->
-      <section>
+
+      <section class="hide questions">
         <p>Hair Goals:</p>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Define</label>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Volumize</label>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Shine</label>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Strengthen</label>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Reduce Frizz</label>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Lengthen</label>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Hydrate</label>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Color Protect</label>
-        <input type="checkbox" name="ques5" value="">
-        <label for="ques5">Heat Protect</label>
-        <button type="submit" name="button">Submit</button>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Define</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Volumize</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Shine</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Strengthen</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Reduce Frizz</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Lengthen</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Hydrate</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Color Protect</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" name="ques5" value="">
+          <label for="ques5">Heat Protect</label>
+        </div>
+        <button class="btn btn-outline-secondary" type="submit" name="button">Submit</button>
       </section>
 
     </form>
-  </body>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="main.js"></script>
+</body>
 </html>

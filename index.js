@@ -19,14 +19,18 @@ app.listen(PORT, () => {
 
 // *** GET Routes - display pages ***
 // Root Route
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
     res.render('index.ejs');
-
 });
 
-app.get('/login', function(req, res) {
+app.get('/login', (req, res) => {
     res.render('rgtr.ejs');
 });
+
+app.get('/signUpQuiz', (req, res) =>{
+  res.render('signUpQuiz.ejs')
+})
+
 
 app.post("/",(req, res) => {});
 
@@ -39,6 +43,3 @@ app.delete("/", (req, res) => {});
 
 
 //ROUTES
-app.get('/signUpQuiz', (req, res) =>{
-  res.render('signUpQuiz.ejs')
-})
