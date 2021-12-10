@@ -17,8 +17,8 @@
           <div class="logCard">
             <h2>Login</h2>
             <form >
-              <input type="email" class="input-box" placeholder="Your Email" required>
-              <input type="password" class="input-box" placeholder="Your Password" required>
+              <input type="email" class="input-box" name="email" placeholder="Your Email" required>
+              <input type="password" class="input-box" name="password" placeholder="Your Password" required>
               <button type="submit" class="submit-btn"> Submit</button>
               <input type="checkbox"><span>Remember me</span>
             </form>
@@ -28,11 +28,11 @@
 
           <div class="signCard">
           <h2>SignUp</h2>
-            <form>
-              <input type="text" class="input-box" placeholder="Your Name" required>
-              <input type="email" class="input-box" placeholder="Your Email" required>
-              <input type="password" class="input-box" placeholder="New Password" required>
-              <input type="password" class="input-box" placeholder="Comfirm Password" required>
+            <form action="/login" method="POST">
+              <input type="text" class="input-box" name="name" placeholder="Your Name" required>
+              <input type="email" class="input-box" name="emailNew" placeholder="Your Email" required>
+              <input type="password" class="input-box" name="passwordNew"placeholder="New Password" required>
+              <input type="password" class="input-box" name="passwordComfirm" placeholder="Comfirm Password" required>
               <button type="submit" class="submit-btn">Submit</button>
             </form>
             <button type="button" class="btn" onclick="openLog()">I've an account</button>
