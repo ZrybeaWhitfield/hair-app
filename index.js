@@ -2,10 +2,11 @@
 const express = require("express");
 const ejs = require("ejs");
 const cors = require("cors");
+// const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const { MongoClient } = require("mongodb");
-// const dotenv = require("dotenv");
-// dotenv.config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 // Initialise Express
 const app = express();
@@ -16,36 +17,25 @@ app.use(express.static("public"));
 // Set the view engine to ejs
 app.set("view engine", "ejs");
 
-const MongoDB_URL = `mongodb+srv://zedlee:Egbdf080710@cluster1.srhmk.mongodb.net/hair-app?retryWrites=true&w=majority`;
+app.listen(PORT, () => {
+  console.log(`App is running on port ${PORT}`);
+});
+
+
+
+const url = `mongodb+srv://zedlee:Egbdf080710@cluster1.srhmk.mongodb.net/hair-app?retryWrites=true&w=majority`
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
 const dbName = "hair-app";
+const db = client.db(dbName);
 
-MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
-  (client) => {
-    console.log("Connected to Database");
 
-    const db = client.db(dbName);
-    
+async function main(){
 
-    app.listen(PORT, () => {
-      console.log(`App is running on port ${PORT}`);
-    });
+  try{
+    await client.connect()
 
-    // *** GET Routes - display pages ***
-    // Root Route
-    app.get("/", function (req, res) {
-      res.render("index.ejs");
-    });
-
-    app.get("/login", function (req, res) {
-      res.render("rgtr.ejs");
-    });
-
-    app.get("/signUpQuiz", (req, res) => {
-      res.render("signUpQuiz.ejs");
-    });
-
-     // *** Post Routes ***
-    app.post("/login", (req, res) => {
+    // *** Post Routes ***
+    await app.post("/login", (req, res) => {
       const name = req.body.name;
       const emailNew = req.body.emailNew;
       const passwordNew = req.body.passwordNew;
@@ -57,8 +47,37 @@ MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
       res.redirect("/signUpQuiz")
     });
 
-    app.put("/", (req, res) => {});
-
-    app.delete("/", (req, res) => {});
+  } catch (error) {
+    console.error(error);
   }
-);
+}
+
+
+main()
+  .catch(console.error)
+
+const newHairType = {
+  typeOne: "Straight"
+}
+async function createHairType(client, newHairType){
+  const result = await client.db(dbName).collection('hairTypes').insertOne(newHairType)
+}
+
+//GET REQUESTS
+
+app.get("/", function (req, res) {
+  res.render("index.ejs");
+});
+
+app.get("/login", function (req, res) {
+  res.render("rgtr.ejs");
+});
+
+app.get("/signUpQuiz", (req, res) => {
+  res.render("signUpQuiz.ejs");
+});
+
+
+// app.put("/", (req, res) => {});
+//
+// app.delete("/", (req, res) => {});
