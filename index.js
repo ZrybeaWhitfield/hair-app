@@ -48,6 +48,20 @@ async function main(){
       db.collection("signData").insertOne(Data);
       res.redirect("/signUpQuiz")
     });
+    await app.post("/userPreferences", (req, res) => {
+      let hairType = req.body.hairType;
+      let hairDensity = req.body.hairDensity;
+      let hairPorosity = req.body.hairPorosity;
+      let hairLength = req.body.hairLength;
+      let hairGoals = req.body.hairGoals;
+
+      console.log(hairGoals);
+
+      let hairData = {hairType, hairDensity, hairPorosity, hairLength, hairGoals};
+
+      db.collection("hairTypes").insertOne(hairData);
+      res.redirect("/")
+    });
 
   } catch (error) {
     console.error(error);
@@ -77,15 +91,3 @@ app.get("/signUpQuiz", (req, res) => {
 // app.put("/", (req, res) => {});
 //
 // app.delete("/", (req, res) => {});
-
-await app.post("/userPreferences", (req, res) => {
-  const hairType = req.body.name;
-  const hairDensity = req.body.emailNew;
-  const hairPorosity = req.body.passwordNew;
-  const hairGoals = req.body.passwordComfirm;
-
-  const Data = {name,emailNew,passwordNew,passwordComfrim};
-
-  db.collection("signData").insertOne(Data);
-  res.redirect("/signUpQuiz")
-});
