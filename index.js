@@ -66,28 +66,6 @@ MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
 
 // Davida's input 
     // QP Posts routes ===============================================================
-    app.get('/post', isLoggedIn, function(req, res) {
-      db.collection('posts').findOne({_id: ObjectId(req.query.id)}, (err, result) => {
-          db.collection('comments').find().toArray((error, rslt) => {
-              if (err) return console.log(err)
-              console.log(result, req.query.id);
-              res.render('post.ejs', {
-                  user : req.user,
-                  post: result,
-                  comments: rslt
-              })
-          })
-      })
-  });
-  var storage = multer.diskStorage({
-      destination: (req, file, cb) => {
-      cb(null, 'public/img/')
-      },
-      filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now() + ".png")
-      }
-  })
-  var upload = multer({storage: storage})
   app.post('/createPost', upload.single('file-to-upload'), (req, res) => {
     db.collection('posts').save({
       image: "img/" + req.file.filename,
