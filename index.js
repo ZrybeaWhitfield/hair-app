@@ -52,17 +52,19 @@ async function main(){
     await client.connect();
 
     // *** Post Routes ***
-    await app.post("/login", (req, res) => {
-      const name = req.body.name;
-      const emailNew = req.body.emailNew;
-      const passwordNew = req.body.passwordNew;
-      const passwordComfrim = req.body.passwordComfirm;
-      const Data = {name,emailNew,passwordNew,passwordComfrim};
-
-      db.collection("signData").insertOne(Data);
-      res.redirect("/signUpQuiz")
-    });
     await app.post("/userPreferences", (req, res) => {
+
+      // obtain the user data from the auth0
+      const userName=req.oidc.user.nickname
+      const name = req.oidc.user.name;
+      const email = req.oidc.user.email;
+      const picture = req.oidc.user.picture;
+      const logTime = req.oidc.user.updated_at;
+
+      const Data = {userName,name,email,picture,logTime};
+      db.collection("userData").insertOne(Data);
+
+      // collection the data from the signUpQuiz
       let hairType = req.body.hairType;
       let hairDensity = req.body.hairDensity;
       let hairPorosity = req.body.hairPorosity;
@@ -89,23 +91,12 @@ main()
 // *** GET Routes - display pages ***
     // Root Route
 
-    // app.get('/', (req, res) => {
-    //   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
-    // });
-
-    app.get('/profile',requiresAuth(),(req, res) => {
-      res.send(JSON.stringify(req.oidc.user))
-    }) 
-
     app.get("/", function (req, res) {
       res.render("index.ejs");
     });
 
-    // app.get('/Sign',requiresAuth(),(req, res) => {
-    //   res.render("rgtr.ejs");
-    // }) 
-
     app.get("/signUpQuiz", requiresAuth(),(req, res) => {
+      console.log(req.oidc.user);
       res.render("signUpQuiz.ejs");
     });
 
