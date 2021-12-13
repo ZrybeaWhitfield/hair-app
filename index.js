@@ -74,7 +74,7 @@ async function main(){
       let hairData = {hairType, hairDensity, hairPorosity, hairLength, hairGoals};
 
       db.collection("hairTypes").insertOne(hairData);
-      res.redirect("/")
+      res.redirect("/profile")
     });
 
   } catch (error) {
@@ -85,6 +85,8 @@ async function main(){
 
 main()
   .catch(console.error)
+
+
 //GET REQUESTS
 // *** GET Routes - display pages ***
     // Root Route
@@ -95,15 +97,12 @@ main()
 
     app.get('/profile',requiresAuth(),(req, res) => {
       res.send(JSON.stringify(req.oidc.user))
-    }) 
+    })
 
     app.get("/", function (req, res) {
       res.render("index.ejs");
     });
 
-    // app.get('/Sign',requiresAuth(),(req, res) => {
-    //   res.render("rgtr.ejs");
-    // }) 
 
     app.get("/signUpQuiz", requiresAuth(),(req, res) => {
       res.render("signUpQuiz.ejs");
