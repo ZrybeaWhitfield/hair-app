@@ -58,12 +58,6 @@ async function main(){
 main()
   .catch(console.error)
 
-const newHairType = {
-  typeOne: "Straight"
-}
-async function createHairType(client, newHairType){
-  const result = await client.db(dbName).collection('hairTypes').insertOne(newHairType)
-}
 
 //GET REQUESTS
 
