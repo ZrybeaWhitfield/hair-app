@@ -18,6 +18,10 @@ app.use(express.static("public"));
 // Set the view engine to ejs
 app.set("view engine", "ejs");
 
+app.listen(PORT, () => {
+  console.log(`App is running on port ${PORT}`);
+});
+
 // auth0 initial
 const { auth,requiresAuth } = require('express-openid-connect');
 
@@ -33,6 +37,7 @@ app.use(
   })
 );
 
+// mongoDB initial
 const url = process.env.MONGO_URI
 
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -40,6 +45,7 @@ const dbName = "hair-app";
 const db = client.db(dbName);
 
 
+// start routes
 async function main(){
 
   try{
@@ -87,19 +93,19 @@ main()
     //   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
     // });
 
-    // app.get('/profile',requiresAuth(),(req, res) => {
-    //   res.send(JSON.stringify(req.oidc.user))
-    // }) 
+    app.get('/profile',requiresAuth(),(req, res) => {
+      res.send(JSON.stringify(req.oidc.user))
+    }) 
 
     app.get("/", function (req, res) {
       res.render("index.ejs");
     });
 
-    app.get('/login',requiresAuth(),(req, res) => {
-      res.render("rgtr.ejs");
-    }) 
+    // app.get('/Sign',requiresAuth(),(req, res) => {
+    //   res.render("rgtr.ejs");
+    // }) 
 
-    app.get("/signUpQuiz", (req, res) => {
+    app.get("/signUpQuiz", requiresAuth(),(req, res) => {
       res.render("signUpQuiz.ejs");
     });
 
