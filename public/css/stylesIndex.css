@@ -90,59 +90,71 @@
         position: relative;
     }
 
+    .img-block{
+        clip-path: circle(39.0% at 50% 50%);
+        background-color: #000;
+    }
+
 
     .single-feature img{   
         width:  100%;
         filter: grayscale(100%);
-        opacity: 0.5;
+        opacity:1;
      }
 
      .img-dec{
          color: white;
-         background: black;
+         background: #273c75;
+         border-radius: 10px;
+         padding: 10px;
          width: 80%;
          position: relative;
          bottom: 0%;
          left: 50%;
          opacity: 0;
          transform: translateX(-50%);
-         transition: 1s;
+         transition: 1.5s;
      }
 
      hr{
          background: #fff;
          height: 2px;
          border: 0;
-         margin: 15px auto;
+         margin: 10px auto;
          width: 60%;
      }
 
      .img-dec p{
-         font-size: 18px;
+         font-size: 20px;
+         font-style: italic;
+         align-self: flex-start;
      }
 
      .single-feature:hover .img-dec{
-         bottom: 50%;
+         bottom: 40%;
          opacity: 1;
      }
 
     .title-text{
         text-align: center;
         padding-bottom:70px;
+        color: #192a56;
     }
 
     .title-text p{
         margin: auto;
-        font-size: 20px;
-        color: #009688;
+        font-size: 30px;
+        font-style: italic;
         font-weight:bold;
         position: relative;
         z-index: 1;
         display: inline-block;
+        
     }
 
     .title-text h1 {
         font-size: 50px;
+        font-family: 'Corinthia', cursive;
     }
 
 

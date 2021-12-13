@@ -64,18 +64,9 @@ MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
       res.send(JSON.stringify(req.oidc.user))
     }) 
 
-    app.get('/login',requiresAuth(),(req, res) => {
-      res.render("rgtr.ejs");
-    }) 
-
     app.get("/", function (req, res) {
       res.render("index.ejs");
     });
-
-  
-    // app.get("/login", function (req, res) {
-    //   res.render("rgtr.ejs");
-    // });
 
     app.get("/signUpQuiz", (req, res) => {
       res.render("signUpQuiz.ejs");
