@@ -8,6 +8,7 @@ const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
 dotenv.config();
 
+
 // Initialise Express
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +24,8 @@ app.listen(PORT, () => {
 
 
 
-const url = `mongodb+srv://zedlee:Egbdf080710@cluster1.srhmk.mongodb.net/hair-app?retryWrites=true&w=majority`
+const url = process.env.MONGO_URI
+
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
 const dbName = "hair-app";
 const db = client.db(dbName);
