@@ -77,3 +77,15 @@ app.get("/signUpQuiz", (req, res) => {
 // app.put("/", (req, res) => {});
 //
 // app.delete("/", (req, res) => {});
+
+await app.post("/userPreferences", (req, res) => {
+  const hairType = req.body.name;
+  const hairDensity = req.body.emailNew;
+  const hairPorosity = req.body.passwordNew;
+  const hairGoals = req.body.passwordComfirm;
+
+  const Data = {name,emailNew,passwordNew,passwordComfrim};
+
+  db.collection("signData").insertOne(Data);
+  res.redirect("/signUpQuiz")
+});
