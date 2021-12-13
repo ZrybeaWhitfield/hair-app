@@ -4,8 +4,9 @@ const ejs = require("ejs");
 const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 const { MongoClient } = require("mongodb");
-// const dotenv = require("dotenv");
-// dotenv.config();
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 // Initialise Express
 const app = express();
@@ -16,7 +17,21 @@ app.use(express.static("public"));
 // Set the view engine to ejs
 app.set("view engine", "ejs");
 
-const MongoDB_URL = `mongodb+srv://zedlee:Egbdf080710@cluster1.srhmk.mongodb.net/hair-app?retryWrites=true&w=majority`;
+const { auth,requiresAuth } = require('express-openid-connect');
+
+app.use(
+  auth({
+    authRequired:false,
+    auth0Logout:true,
+    issuerBaseURL: process.env.ISSUER_BASE_URL,
+    baseURL: process.env.BASE_URL,
+    clientID: process.env. CLIENT_ID,
+    secret: process.env.SECRET,
+    idpLogout: true,
+  })
+);
+
+const MongoDB_URL=process.env.MONGO_URI;
 const dbName = "hair-app";
 
 MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
@@ -32,16 +47,42 @@ MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
 
     // *** GET Routes - display pages ***
     // Root Route
+
+    // app.get('/', (req, res) => {
+    //   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
+    // });
+
     app.get("/", function (req, res) {
       res.render("index.ejs");
     });
 
-    app.get("/login", function (req, res) {
+    app.get('/login',requiresAuth(),(req, res) => {
       res.render("rgtr.ejs");
+    }) 
+
+    app.get('/profile',requiresAuth(),(req, res) => {
+      res.send(JSON.stringify(req.oidc.user))
+    }) 
+
+    app.get('/login',requiresAuth(),(req, res) => {
+      res.render("rgtr.ejs");
+    }) 
+
+    app.get("/", function (req, res) {
+      res.render("index.ejs");
     });
+
+  
+    // app.get("/login", function (req, res) {
+    //   res.render("rgtr.ejs");
+    // });
 
     app.get("/signUpQuiz", (req, res) => {
       res.render("signUpQuiz.ejs");
+    });
+
+    app.get("/feed", (req, res) => {
+      res.render("feed.ejs");
     });
 
      // *** Post Routes ***
@@ -50,7 +91,6 @@ MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
       const emailNew = req.body.emailNew;
       const passwordNew = req.body.passwordNew;
       const passwordComfrim = req.body.passwordComfirm;
-
       const Data = {name,emailNew,passwordNew,passwordComfrim};
 
       db.collection("signData").insertOne(Data);
@@ -62,3 +102,4 @@ MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
     app.delete("/", (req, res) => {});
   }
 );
+

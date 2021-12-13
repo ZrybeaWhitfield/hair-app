@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-signin-client_id" content="270776896457-cq44ssdgtmh1dtt8en7k5tv3d8b6n35u.apps.googleusercontent.com">
     <title>Login</title>
     <link rel="stylesheet" href="/css/stylesRgtr.css" />
   </head>
@@ -27,7 +28,7 @@
           </div>
 
           <div class="signCard">
-          <h2>SignUp</h2>
+            <h2>SignUp</h2>  
             <form action="/login" method="POST">
               <input type="text" class="input-box" name="name" placeholder="Your Name" required>
               <input type="email" class="input-box" name="emailNew" placeholder="Your Email" required>
@@ -41,6 +42,8 @@
         </div>
       </div>
     </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <script>
       let card=document.getElementById("card");
