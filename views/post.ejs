@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="post.css">
+    <title>Hair Share</title>
+</head>
+<body>
+    <a href="/feed" class="btn btn-default btn-sm">Feed</a>
+    <a href="/profile" class="btn btn-default btn-sm">Profile</a>
+    <div class="post">
+        <a href="/post?id=<%=post._id%>"><img class="picture" src="<%=post.image %>"></a>
+        <span class="caption"><%= post.caption %></span>
+        <button class="commentBox">Comment</button>
+            <form class="comment hide">
+                <input class="text "type="text">
+                <input class="submitComment" type="submit" value=">">
+                <button class="cancel">Cancel</button>
+            </form>
+        <% for(i = comments.length-1; i > 0; i--) { %>
+            <% if (comments[i].post == post._id) { %>
+                <p class="comments"><%= comments[i].comment%> | <span><%= comments[i].timestamp %></span></p>
+            <% } %>
+        <% } %>
+    </div>
+    <script type="text/javascript" src="post.js"></script>
+</body>
+</html>
