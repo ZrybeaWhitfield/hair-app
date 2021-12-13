@@ -2,10 +2,12 @@
 const express = require("express");
 const ejs = require("ejs");
 const cors = require("cors");
+// const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const { MongoClient } = require("mongodb");
-// const dotenv = require("dotenv");
-// dotenv.config();
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 // Initialise Express
 const app = express();
@@ -16,36 +18,26 @@ app.use(express.static("public"));
 // Set the view engine to ejs
 app.set("view engine", "ejs");
 
-const MongoDB_URL = `mongodb+srv://zedlee:Egbdf080710@cluster1.srhmk.mongodb.net/hair-app?retryWrites=true&w=majority`;
+app.listen(PORT, () => {
+  console.log(`App is running on port ${PORT}`);
+});
+
+
+
+const url = process.env.MONGO_URI
+
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
 const dbName = "hair-app";
+const db = client.db(dbName);
 
-MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
-  (client) => {
-    console.log("Connected to Database");
 
-    const db = client.db(dbName);
-    
+async function main(){
 
-    app.listen(PORT, () => {
-      console.log(`App is running on port ${PORT}`);
-    });
+  try{
+    await client.connect()
 
-    // *** GET Routes - display pages ***
-    // Root Route
-    app.get("/", function (req, res) {
-      res.render("index.ejs");
-    });
-
-    app.get("/login", function (req, res) {
-      res.render("rgtr.ejs");
-    });
-
-    app.get("/signUpQuiz", (req, res) => {
-      res.render("signUpQuiz.ejs");
-    });
-
-     // *** Post Routes ***
-    app.post("/login", (req, res) => {
+    // *** Post Routes ***
+    await app.post("/login", (req, res) => {
       const name = req.body.name;
       const emailNew = req.body.emailNew;
       const passwordNew = req.body.passwordNew;
@@ -56,9 +48,46 @@ MongoClient.connect(MongoDB_URL, { useUnifiedTopology: true }).then(
       db.collection("signData").insertOne(Data);
       res.redirect("/signUpQuiz")
     });
+    await app.post("/userPreferences", (req, res) => {
+      let hairType = req.body.hairType;
+      let hairDensity = req.body.hairDensity;
+      let hairPorosity = req.body.hairPorosity;
+      let hairLength = req.body.hairLength;
+      let hairGoals = req.body.hairGoals;
 
-    app.put("/", (req, res) => {});
+      console.log(hairGoals);
 
-    app.delete("/", (req, res) => {});
+      let hairData = {hairType, hairDensity, hairPorosity, hairLength, hairGoals};
+
+      db.collection("hairTypes").insertOne(hairData);
+      res.redirect("/")
+    });
+
+  } catch (error) {
+    console.error(error);
   }
-);
+}
+
+
+main()
+  .catch(console.error)
+
+
+//GET REQUESTS
+
+app.get("/", function (req, res) {
+  res.render("index.ejs");
+});
+
+app.get("/login", function (req, res) {
+  res.render("rgtr.ejs");
+});
+
+app.get("/signUpQuiz", (req, res) => {
+  res.render("signUpQuiz.ejs");
+});
+
+
+// app.put("/", (req, res) => {});
+//
+// app.delete("/", (req, res) => {});
