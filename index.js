@@ -2,29 +2,19 @@
 const express = require("express");
 const ejs = require("ejs");
 const cors = require("cors");
+const multer = require('multer');
+const upload = multer({ dest: 'public/uploads/' })
 // const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
 dotenv.config();
 
-
+// auth0 initial
+const { auth,requiresAuth } = require('express-openid-connect');
 // Initialise Express
 const app = express();
 app.use(express.urlencoded({ extended: true }));
-// Render static files
-app.use(express.json());
-app.use(express.static("public"));
-// Set the view engine to ejs
-app.set("view engine", "ejs");
-
-app.listen(PORT, () => {
-  console.log(`App is running on port ${PORT}`);
-});
-
-// auth0 initial
-const { auth,requiresAuth } = require('express-openid-connect');
-
 app.use(
   auth({
     authRequired:false,
@@ -36,10 +26,19 @@ app.use(
     idpLogout: true,
   })
 );
+// Render static files
+app.use(express.json());
+app.use(express.static("public"));
+// Set the view engine to ejs
+app.set("view engine", "ejs");
+
+app.listen(PORT, () => {
+  console.log(`App is running on port ${PORT}`);
+});
+
 
 // mongoDB initial
 const url = process.env.MONGO_URI
-
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
 const dbName = "hair-app";
 const db = client.db(dbName);
@@ -52,18 +51,14 @@ async function main(){
     await client.connect();
 
     // *** Post Routes ***
-    await app.post("/userPreferences", (req, res) => {
+    await app.post("/userData", (req, res) => {
 
       // obtain the user data from the auth0
-      const userName=req.oidc.user.nickname
+      const userName = req.oidc.user.nickname
       const name = req.oidc.user.name;
       const email = req.oidc.user.email;
       const picture = req.oidc.user.picture;
       const logTime = req.oidc.user.updated_at;
-
-      const Data = {userName,name,email,picture,logTime};
-      db.collection("userData").insertOne(Data);
-
       // collection the data from the signUpQuiz
       let hairType = req.body.hairType;
       let hairDensity = req.body.hairDensity;
@@ -71,11 +66,9 @@ async function main(){
       let hairLength = req.body.hairLength;
       let hairGoals = req.body.hairGoals;
 
-      console.log(hairGoals);
+      let userData = {userName, name, email, picture,logTime, hairType, hairDensity, hairPorosity, hairLength, hairGoals};
 
-      let hairData = {hairType, hairDensity, hairPorosity, hairLength, hairGoals};
-
-      db.collection("hairTypes").insertOne(hairData);
+      db.collection("userData").insertOne(userData);
       res.redirect("/profile")
     });
 
@@ -83,7 +76,6 @@ async function main(){
     console.error(error);
   }
 }
-
 
 main()
   .catch(console.error)
@@ -93,14 +85,14 @@ main()
 // *** GET Routes - display pages ***
     // Root Route
 
-    app.get("/", function (req, res) {
-      res.render("index.ejs");
-    });
+app.get("/", function (req, res) {
+  res.render("index.ejs");
+});
 
-    app.get("/signUpQuiz", requiresAuth(),(req, res) => {
-      console.log(req.oidc.user);
-      res.render("signUpQuiz.ejs");
-    });
+app.get("/signUpQuiz", requiresAuth(),(req, res) => {
+  console.log(req.oidc.user);
+  res.render("signUpQuiz.ejs");
+});
 
 // app.put("/", (req, res) => {});
 //
