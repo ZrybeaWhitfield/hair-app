@@ -24,6 +24,9 @@ app.use(
     clientID: process.env. CLIENT_ID,
     secret: process.env.SECRET,
     idpLogout: true,
+    routes: {
+      login: false
+    }
   })
 );
 // Render static files
@@ -89,10 +92,20 @@ app.get("/", function (req, res) {
   res.render("index.ejs");
 });
 
-app.get("/signUpQuiz", requiresAuth(),(req, res) => {
-  console.log(req.oidc.user);
-  res.render("signUpQuiz.ejs");
-});
+// app.get("/signUpQuiz", requiresAuth(),(req, res) => {
+//   console.log(req.oidc.user);
+//   res.render("signUpQuiz.ejs");
+// });
+
+// app.get("/login", requiresAuth(), (req, res) =>{
+//
+//   res.render("/profile")
+// })
+
+app.get('/login', (req, res) => {
+  console.log(`${req.oidc.user.name} has logged in`);
+  res.oidc.login({ returnTo: '/profile' })
+})
 
 // app.put("/", (req, res) => {});
 //
