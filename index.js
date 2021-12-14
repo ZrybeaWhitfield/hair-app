@@ -2,6 +2,8 @@
 const express = require("express");
 const ejs = require("ejs");
 const cors = require("cors");
+const multer = require('multer');
+const upload = multer({ dest: 'public/uploads/' })
 // const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 // mongoDB initial
@@ -53,7 +55,7 @@ async function main(){
     await app.post("/userData", (req, res) => {
 
       // obtain the user data from the auth0
-      const userName=req.oidc.user.nickname
+      const userName = req.oidc.user.nickname
       const name = req.oidc.user.name;
       const email = req.oidc.user.email;
       const picture = req.oidc.user.picture;
