@@ -6,12 +6,15 @@ const multer = require('multer');
 const upload = multer({ dest: 'public/uploads/' })
 // const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
+// mongoDB initial
+const url = process.env.MONGO_URI
+// auth0 initial
+const { auth,requiresAuth } = require('express-openid-connect');
 const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
 dotenv.config();
 
-// auth0 initial
-const { auth,requiresAuth } = require('express-openid-connect');
+
 // Initialise Express
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -37,8 +40,6 @@ app.listen(PORT, () => {
 });
 
 
-// mongoDB initial
-const url = process.env.MONGO_URI
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
 const dbName = "hair-app";
 const db = client.db(dbName);
@@ -61,6 +62,7 @@ async function main(){
       const logTime = req.oidc.user.updated_at;
       // collection the data from the signUpQuiz
       let hairType = req.body.hairType;
+      
       let hairDensity = req.body.hairDensity;
       let hairPorosity = req.body.hairPorosity;
       let hairLength = req.body.hairLength;
@@ -69,7 +71,7 @@ async function main(){
       let userData = {userName, name, email, picture,logTime, hairType, hairDensity, hairPorosity, hairLength, hairGoals};
 
       db.collection("userData").insertOne(userData);
-      res.redirect("/profile")
+      res.redirect("profile")
     });
 
   } catch (error) {
