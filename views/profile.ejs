@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
     <link rel="stylesheet" href="font-awesome.min.css">
     <link rel="stylesheet" href="/css/profile.css">
     <title>Hair Share</title>
@@ -27,7 +27,7 @@
         </li>
     </ul>
   </header>
-  
+
   <section class="profileSection">
     <section class="profileAvi">
       <img src="<%= picture%>" alt="">
@@ -37,28 +37,27 @@
     </section>
   </section>
 
- 
+
 
   <div class="col-sm-6 " >
 
     <!-- <h3>Post a hair pic</h3> -->
-    <form action="/createPost" method="post" id="createPost" class="createPost" enctype="multipart/form-data">
+    <form action="/profile" method="post" id="createPost" class="createPost" enctype="multipart/form-data">
       <div>
-        <label for="postImage"><h3>Add A Hair Post</h3></label>
-        <label for="details"></label>
-          <input type="text"  class="style" placeholder="Tell about your style">
+        <h3>Add A Hair Post</h3>
+        <input name="postDetails" type="text"  class="style" placeholder="Tell about your style">
         <input name="postImage" class="uploadImage" type="file" placeholder="Upload Your Image">
       </div>
         <!-- <div>
           <label for="details"></label>
           <input type="text" placeholder="Tell about your style">
         </div> -->
-        <button class="submitButton" type="submit">Post</button>
+      <button class="submitButton" type="submit">Post</button>
     </form>
 </div>
 
-  
 
- 
+
+
 </body>
 </html>
