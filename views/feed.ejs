@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="font-awesome.min.css">
-    <link rel="stylesheet" href="public/css/">
+    <link rel="stylesheet" href="css/">
     <title>Hair Share</title>
 </head>
 <body>
@@ -30,34 +30,32 @@
 
     <div class="col-sm-6">
 
-        <ul id="feed">
-            <li class="post">
-
                 <section>
-                  <ul>
-                    <% for(var i=0; i<posts.length; i++) { %>
-                    <li>
-                      <img src="<%= posts[i].imgPath %>" alt="">
-                      <span><%= posts[i].userName %></span>
-                      <span><%= posts[i].postCaption %></span>
-                    </li>
+                  <% for(let i=0; i <posts.length; i++) { %>
+                    <section>
+                      <img src=" <%= posts[i].imgPath%> " alt="">
+
+                      <p><%= posts[i].userName %></p>
+                      <p><%= posts[i].postCaption %></p>
+                      <section>
+                        <h3>Add a comment</h3>
+                        <form action="/feed" method="post" class="commentHide">
+                        <input name="comment" class="text" type="text" placeholder="Comment">
+                        <input style="display: none;" type="text" name="postID" value="<%= posts[i]._id%>">
+
+                        <button class="" type="submit">Add</button>
+                        </form>
+                      </section>
+                    </section>
+
                     <% } %>
-                  </ul>
+
 
                   <% if (comments) { %>
                     <h2>Hi</h2>
                   <% } %>
                 </section>
 
-
-                <button class="commentBox">Comment</button>
-                    <form action="/feed" method="post" class="commentHide">
-                        <input name="Comment" class="text" type="text">
-                        <input class="submitComment" type="submit" value=">">
-                        <button class="cancel">Cancel</button>
-                    </form>
-            </li>
-        </ul>
 
     </div>
     <script src="feed.js"></script>

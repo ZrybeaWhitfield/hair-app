@@ -3,6 +3,7 @@ const express = require("express");
 const ejs = require("ejs");
 const cors = require("cors");
 const multer = require('multer');
+const ObjectId = require('mongodb').ObjectId;
 // const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const { MongoClient } = require("mongodb");
@@ -226,30 +227,18 @@ upload.single('postImage'),(req, res) => {
 
     app.post('/feed', function(req, res) {
       console.log('comments', req.body)
-      console.log('req.oidc.user_id', req.oidc.user)
-      db.collection('comments').insertOne({
-        comments: req.body.Comment,
-        userEmail: req.oidc.user.email,
-
-
-      }, (err, result)=>{
-          if(err)return(console.log(err))
-          console.log(result)
-
-          db.collection('comments').findOne({_id: result.insertedId}, (e, userResult)=> {
-            db.collection('posts').findOne({userEmail: userResult.userEmail}, (er, myData)=> {
-              console.log(myData)
-              res.render('feed.ejs',{
-                posts : myData.imgPath,
-                comments: userResult.comments
-              })
-
-            })
-            console.log(userResult)
-          })
-
-        })
-      });
+      db.collection('posts').findOneAndUpdate(
+        {_id:ObjectId(req.body.postID)},
+        {
+          $set: {
+          comments: req.body.comment
+          }
+        },
+        {"upsert": true}, (err, result) => {
+        if (err) return console.log(err)
+      })
+      res.redirect("/feed")
+    });
 
   // app.post('/createComment', (req, res) => {
   //     const comingFromPage = req.headers['referer'].slice(req.headers['origin'].length);
