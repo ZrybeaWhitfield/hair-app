@@ -1,85 +1,87 @@
 body{
-    background: #353b48;
-    margin: 25px auto;
-    width: 70%;
-    color: #fff;
-  }
-
-li{  
-    display: inline;
-    padding-left: 10px;
-    border-bottom: 2px solid white;
-  }
-
-.navItem{
-    justify-content: center;
-    color: white;
-
-
-} 
-
-.profileSection{
-    width: 100%;
-    height: 100px;
-
-}
-.profileAvi{
-    width: 50%;
-    height: 30px;
-    /* float: left; */
-}
-.profileName{
-    width: 50%;
-    /* float: right; */
-    height: 30px;
-    margin: -30px 109px
     
-}
-h1, h3{
-    font-size: 30px;
-    font-style: italic;
-    font-family: "Corinthia", cursive;
-}
-
-h3{
-   text-underline-offset: 10px;
-}
-
-.createPost{
-    height: 700px;
+    background-image: url("/images/profileBackground.jpg");
     width: 100%;
-    border: 2px solid white;
-    margin-left: 155px;
-}
-
-
-
-.style{
-    position: absolute;
-    bottom: 26%;
-    /* right: 30%; */
-    background-color: #353b48;
-    width: 41%;
-    height: 10%;
-    text-align: center;
-}
-
-.uploadImage{
-    position: absolute;
-    bottom: 48%;
-    right: 41%;
-    background-color: #353b48;
-    width: 20%;
-    height: 11%;
-    text-align: center;
-
-}
-
-.submitButton{
-    height: 20px;
-    width: 10%;
-    margin: 49% 81%;
-    bottom: 86%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    }
+  
+  li{  
+      display: inline;
+      padding-left: 10px;
+      border-bottom: 2px solid white;
+    }
+  
+  .navItem{
+      justify-content: center;
+      color: white;
+  
+  
+  } 
+  
+  .profileSection{
+      width: 50%;
+      height: 100px;
+  
   }
-
+   .profileAvi{
+      width: 50%;
+      height: 30px;
+      border: 1px solid white;
+  }
+  .profileName{
+      width: 50%;
+      height: 30px;
+      margin: -30px 150px
+      
+  }
+  h1, h3{
+      font-size: 30px;
+      font-style: italic;
+      font-family: "Corinthia", cursive;
+  }
+  
+  h3{
+     text-underline-offset: 10px;
+  }
+  
+  .createPost{
+      height: 300px;
+      width: 50%;
+      background-color: rgb(101, 104, 104);
+      border: 2px solid white;
+      margin-top: 400px;
+      opacity: 0.8;
+  }
+  
+  .uploadImage{
+      background-color: #353b48;
+      width: 30%;
+      height: 60px;
+      text-align: center;
+      float: left;
+  
+  }
+  
+  .style{
+      background-color: #353b48;
+      width: 41%;
+      height: 55px;
+      text-align: center;
+      float: left;
+  }
+  
+  
+  
+  .submitButton{
+      height: 40px;
+      width: 20%;
+      margin-top: 95px;
+      font-size: 20px;
+      background-color: #353b48;
+    }
+  
+  
   
