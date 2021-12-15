@@ -9,7 +9,7 @@ const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
 dotenv.config();
 
-//multer stuff
+//multer storage
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/uploads')
@@ -167,13 +167,15 @@ app.get('/profile', function(req, res) {
 });
 
 app.get('/feed', function(req, res) {
-  db.collection('posts').find().toArray((err, userResult) => {
-    db.collection('comments').find().toArray((error, rslt) => {
+  db.collection('posts').find().toArray((err, postResult) => {
+    db.collection('comments').find().toArray((err, commentResult) => {
+      console.log("these are posts", postResult);
+      console.log("these are comments", commentResult);
+
       if (err) return console.log(err)
       res.render('feed.ejs', {
-        name : userResult.name,
-        posts: userResult,
-        comment: rslt
+        posts: postResult,
+        comments: commentResult
       })
     })
   })
@@ -221,7 +223,7 @@ upload.single('postImage'),(req, res) => {
   })
 
     // COMMENTS SECTION
-  
+
     app.post('/feed', function(req, res) {
       console.log('comments', req.body)
       console.log('req.oidc.user_id', req.oidc.user)
@@ -229,11 +231,11 @@ upload.single('postImage'),(req, res) => {
         comments: req.body.Comment,
         userEmail: req.oidc.user.email,
 
-      
+
       }, (err, result)=>{
           if(err)return(console.log(err))
           console.log(result)
-      
+
           db.collection('comments').findOne({_id: result.insertedId}, (e, userResult)=> {
             db.collection('posts').findOne({userEmail: userResult.userEmail}, (er, myData)=> {
               console.log(myData)
@@ -241,11 +243,11 @@ upload.single('postImage'),(req, res) => {
                 posts : myData.imgPath,
                 comments: userResult.comments
               })
-  
+
             })
             console.log(userResult)
           })
-          
+
         })
       });
 
@@ -253,8 +255,8 @@ upload.single('postImage'),(req, res) => {
   //     const comingFromPage = req.headers['referer'].slice(req.headers['origin'].length);
   //     db.collection('comments').insertOne({
 
-  //         comment: req.body.comment, 
-  //         poster: req.user._id, 
+  //         comment: req.body.comment,
+  //         poster: req.user._id,
   //         post: req.body.postId,
   //         timestamp: req.body.timestamp
   //     }, (err, result) => {
@@ -286,4 +288,3 @@ upload.single('postImage'),(req, res) => {
     })
   })
 });
-

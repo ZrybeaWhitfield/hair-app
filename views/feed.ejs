@@ -12,18 +12,14 @@
     <header>
         <ul>
           <li>
-            <a href="/signUpQuiz" class="navItem">Home</a>
+            <a href="/" class="navItem">Home</a>
           </li>
           <li>
-            <a href="/feed" class="navItem">Feed</a>
+            <a href="/profile" class="navItem">Profile</a>
           </li>
-          <!-- <li>
-            <a class="navItem" href="p.ejs
-            "></a>Profile</li>
-          <li> -->
-            <li>
-              <a href="/logout" class="navItem">Logout</a>
-            </li>
+          <li>
+            <a href="/logout" class="navItem">Logout</a>
+          </li>
         </ul>
       </header>
     <div class="page-header text center">
@@ -33,27 +29,34 @@
     </div>
 
     <div class="col-sm-6">
-        <form id="createPost">
-            <input type="file" class="picture" name="file-to-upload">
-            <input type="submit" value="Post This">
-        </form>
+
         <ul id="feed">
             <li class="post">
-                <a href="#">
-                  <img class="picture" src="<%=posts %>">
-                </a>
-                <p>
+
+                <section>
+                  <ul>
+                    <% for(var i=0; i<posts.length; i++) { %>
+                    <li>
+                      <img src="<%= posts[i].imgPath %>" alt="">
+                      <span><%= posts[i].userName %></span>
+                      <span><%= posts[i].postCaption %></span>
+                    </li>
+                    <% } %>
+                  </ul>
+
                   <% if (comments) { %>
-                    <h2><%= comments %></h2>
+                    <h2>Hi</h2>
                   <% } %>
-                </p>
+                </section>
+
+
                 <button class="commentBox">Comment</button>
                     <form action="/feed" method="post" class="commentHide">
                         <input name="Comment" class="text" type="text">
                         <input class="submitComment" type="submit" value=">">
                         <button class="cancel">Cancel</button>
                     </form>
-            </li>    
+            </li>
         </ul>
 
     </div>
