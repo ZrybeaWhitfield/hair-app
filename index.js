@@ -82,30 +82,34 @@ async function main(){
       res.redirect("/profile")
     });
 
-    await app.post('/createPost', upload.single('postImage'), (req, res) => {
-        console.log(req.body)
+    await app.post('/createPost',
+    upload.single('postImage'),(req, res) => {
+      const obj = JSON.parse(JSON.stringify(req.body));
+        console.log(obj)
+        res.send(obj)
+      // db.collection('posts').save({
+      //   picture: "img/" + req.oidc.user.picture,
+      //   name: req.oidc.user.name,
+      //   logTime: req.oidc.user.updated_at
+      //   }, (err, result) => {
+      //
+      //   if (err) return console.log(err)
+      //   console.log('saved to database')
+      //   res.redirect('/feed')
+      // })
+    })
 
-      db.collection('posts').save({
-        picture: "img/" + req.oidc.user.picture,
-        name: req.oidc.user.name,
-        logTime: req.oidc.user.updated_at
-        }, (err, result) => {
-        if (err) return console.log(err)
-        console.log('saved to database')
-        res.redirect('/feed')
-      })
-    })
-    app.put('/updatePost', (req, res) => {
-      db.collection('posts').findOneAndUpdate({
-        picture: req.oidc.user.picture,
-        name: req.oidc.user.name,
-        user: req.user._id,
-        },{ $set:{ name: req.body.name } },{ sort:{_id: -1} }, (err, result) => {
-        if (err) return console.log(err)
-        console.log('saved to database');
-        res.redirect('/feed');
-      })
-    })
+    // app.put('/updatePost', (req, res) => {
+    //   db.collection('posts').findOneAndUpdate({
+    //     picture: req.oidc.user.picture,
+    //     name: req.oidc.user.name,
+    //     user: req.user._id,
+    //     },{ $set:{ name: req.body.name } },{ sort:{_id: -1} }, (err, result) => {
+    //     if (err) return console.log(err)
+    //     console.log('saved to database');
+    //     res.redirect('/feed');
+    //   })
+    // })
 
   } catch (error) {
     console.error(error);
@@ -125,7 +129,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/signUpQuiz", requiresAuth(), async (req, res) => {
-  console.log(req.oidc.user);
+  // console.log(req.oidc.user);
   //check to findOne req.oidc.email => if it exists redirect to profile else render quiz
   const user = await db.collection('userData').findOne( {email: req.oidc.user.email})
 
@@ -154,7 +158,7 @@ app.get('/profile', function(req, res) {
   db.collection('userData').find( {email: req.oidc.user.email}).toArray((err, userResult) => {
 
     if(err) return console.log(err);
-    console.log(userResult)
+    // console.log(userResult)
     res.render('profile.ejs', {
       nickname : userResult[0].nickname,
       name : userResult[0].name,
@@ -171,7 +175,7 @@ app.get('/profile', function(req, res) {
     )
   })
 
-  
+
 
 });
 
@@ -189,12 +193,9 @@ app.get('/feed', function(req, res) {
 });
 
 // app.get('/feed', function(req, res) {
-  
+
 
 //   res.render('feed.ejs')
 
 
 // });
-
-
-
