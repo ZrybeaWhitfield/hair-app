@@ -23,7 +23,7 @@ app.use(
     baseURL: process.env.BASE_URL,
     clientID: process.env. CLIENT_ID,
     secret: process.env.SECRET,
-    idpLogout: true,
+    idpLogout: true
   })
 );
 // Render static files
@@ -89,10 +89,27 @@ app.get("/", function (req, res) {
   res.render("index.ejs");
 });
 
-app.get("/signUpQuiz", requiresAuth(),(req, res) => {
+app.get("/signUpQuiz", requiresAuth(), async (req, res) => {
   console.log(req.oidc.user);
+  //check to findOne req.oidc.email => if it exists redirect to profile else render quiz
+  const user = await db.collection('userData').findOne( {email: req.oidc.user.email})
+
+  if(user){
+    return res.redirect('/profile')
+  }
+
   res.render("signUpQuiz.ejs");
 });
+
+// app.get("/login", requiresAuth(), (req, res) =>{
+//
+//   res.render("/profile")
+// })
+
+// app.get('/login', (req, res) => {
+//   console.log(`${req.oidc.user.name} has logged in`);
+//   res.oidc.login({ returnTo: '/profile' })
+// })
 
 // app.put("/", (req, res) => {});
 //
