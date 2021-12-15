@@ -10,17 +10,26 @@
 </head>
 <body>
   <a href="/feed" class="btn btn-default btn-sm">Feed</a>
-    <ul id="myPosts">
-        <% for(var i=0; i<posts.length; i++) {%>
-          <% if( posts[i].user.toString() == user._id.toString()) { %>
-            <li class="post">
-              <a class="link" href="/post?id=<%=posts[i]._id%>"><img class="picture" src="<%=posts[i].image %>"></a>
-              <span class="caption"><%= posts[i].caption %></span>
-              <button><i class="fa fa-trash" style="color: black; font-size: 120px; border: 20px solid red;"></i></button>
-            </li>
-        <% } %>
-      <% } %>
-      </ul>
-      <script type="text/javascript" src="main.js"></script>
+  <h1>hello my, <%= name%></h1>
+  <img src="<%= picture%>" alt="">
+
+  <div class="col-sm-6">
+    <h3>Post a hair pic</h3>
+    <form action"/createPost" method="post" id="createPost" enctype="multipart/form-data">
+      <div>
+        <label for="postImage">Add a hair post</label>
+        <input name="postImage" type="file" placeholder="Upload Image">
+      </div>
+        <div>
+          <label for="details"></label>
+          <input type="text" placeholder="Tell about your style">
+        </div>
+        <button type="submit">Post</button>
+    </form>
+</div>
+
+  
+
+ 
 </body>
 </html>

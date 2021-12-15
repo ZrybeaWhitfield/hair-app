@@ -3,12 +3,22 @@ const express = require("express");
 const ejs = require("ejs");
 const cors = require("cors");
 const multer = require('multer');
-const upload = multer({ dest: 'public/uploads/' })
 // const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
 dotenv.config();
+
+//multer stuff
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/uploads')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now() + ".png")
+  }
+});
+var upload = multer({storage: storage});
 
 // auth0 initial
 const { auth,requiresAuth } = require('express-openid-connect');
@@ -72,6 +82,22 @@ async function main(){
       res.redirect("/profile")
     });
 
+    await app.post('/createPost', upload.single('postImage'), (req, res) => {
+        console.log(req.body)
+
+      // db.collection('posts').save({
+      //   picture: "img/" + req.oidc.user.picture,
+      //   // caption: req.body.caption,
+      //   name: req.oidc.user.name,
+      //   likes: 0,
+      //   logTime: req.oidc.user.updated_at
+      //   }, (err, result) => {
+      //   if (err) return console.log(err)
+      //   console.log('saved to database')
+      //   res.redirect('/feed')
+      // })
+    })
+
   } catch (error) {
     console.error(error);
   }
@@ -114,3 +140,39 @@ app.get("/signUpQuiz", requiresAuth(), async (req, res) => {
 // app.put("/", (req, res) => {});
 //
 // app.delete("/", (req, res) => {});
+
+app.get('/profile', function(req, res) {
+  db.collection('userData').find( {email: req.oidc.user.email}).toArray((err, userResult) => {
+
+    if(err) return console.log(err);
+    console.log(userResult)
+    res.render('profile.ejs', {
+      nickname : userResult[0].nickname,
+      name : userResult[0].name,
+      picture: userResult[0].picture,
+      email: userResult[0].email,
+      userId: userResult[0]._id,
+      hairType: userResult[0].hairType,
+      hairDensity: userResult[0].hairDensity,
+      hairPorosity: userResult[0].hairPorosity,
+      hairLength: userResult[0].hairLength,
+      hairGoals: userResult[0].hairGoals
+      // posts: result
+    }
+    )
+  })
+
+  
+
+});
+
+app.get('/feed', function(req, res) {
+  
+
+  res.render('feed.ejs')
+
+
+});
+
+
+
