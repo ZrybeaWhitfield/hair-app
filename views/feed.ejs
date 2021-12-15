@@ -38,6 +38,17 @@
                       <p><%= posts[i].userName %></p>
                       <p><%= posts[i].postCaption %></p>
                       <section>
+                        <h4>Hair Type</h4>
+                        <p>Hair type: <%= posts[i].hairType %></p>
+                        <p>Hair Densit: <%= posts[i].hairDensity %></p>
+                        <p>hair Length: <%= posts[i].hairLength %></p>
+
+                      </section>
+                      <section>
+                        <h4>Comments</h4>
+                        <span><%= posts[i].comments %></span>
+                      </section>
+                      <section>
                         <h3>Add a comment</h3>
                         <form action="/feed" method="post" class="commentHide">
                         <input name="comment" class="text" type="text" placeholder="Comment">
