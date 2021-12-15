@@ -9,6 +9,23 @@
     <title>Hair Share</title>
 </head>
 <body>
+    <header>
+        <ul>
+          <li>
+            <a href="/signUpQuiz" class="navItem">Home</a>
+          </li>
+          <li>
+            <a href="/feed" class="navItem">Feed</a>
+          </li>
+          <!-- <li>
+            <a class="navItem" href="p.ejs
+            "></a>Profile</li>
+          <li> -->
+            <li>
+              <a href="/logout" class="navItem">Logout</a>
+            </li>
+        </ul>
+      </header>
     <div class="page-header text center">
         <h1><span class="fa fa-heart-o"></span>Feed</h1>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
@@ -18,14 +35,13 @@
     <div class="col-sm-6">
         <form id="createPost">
             <input type="file" class="picture" name="file-to-upload">
-            <input type="text" class="caption" name="caption">
             <input type="submit" value="Post This">
         </form>
         <ul id="feed">
             <% for (var i=0; i<posts.length; i++) {%>
             <li class="post">
-                <a href="/post?id=<%=posts[i]._id%>"><img class="picture" src="<%=posts[i].image %>"></a>
-                <span class="caption"><%= posts[i].caption %></span>
+                <a href="/post?id=<%=posts[i]._id%>"><img class="picture" src="<%=posts[i].picture %>"></a>
+                
                 <button class="commentBox">Comment</button>
                     <form class="commentHide">
                         <input class="text" type="text">

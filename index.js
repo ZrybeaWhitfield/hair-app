@@ -85,17 +85,26 @@ async function main(){
     await app.post('/createPost', upload.single('postImage'), (req, res) => {
         console.log(req.body)
 
-      // db.collection('posts').save({
-      //   picture: "img/" + req.oidc.user.picture,
-      //   // caption: req.body.caption,
-      //   name: req.oidc.user.name,
-      //   likes: 0,
-      //   logTime: req.oidc.user.updated_at
-      //   }, (err, result) => {
-      //   if (err) return console.log(err)
-      //   console.log('saved to database')
-      //   res.redirect('/feed')
-      // })
+      db.collection('posts').save({
+        picture: "img/" + req.oidc.user.picture,
+        name: req.oidc.user.name,
+        logTime: req.oidc.user.updated_at
+        }, (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database')
+        res.redirect('/feed')
+      })
+    })
+    app.put('/updatePost', (req, res) => {
+      db.collection('posts').findOneAndUpdate({
+        picture: req.oidc.user.picture,
+        name: req.oidc.user.name,
+        user: req.user._id,
+        },{ $set:{ name: req.body.name } },{ sort:{_id: -1} }, (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database');
+        res.redirect('/feed');
+      })
     })
 
   } catch (error) {
@@ -167,12 +176,25 @@ app.get('/profile', function(req, res) {
 });
 
 app.get('/feed', function(req, res) {
+  db.collection('posts').find().toArray((err, userResult) => {
+    db.collection('comments').find().toArray((error, rslt) => {
+      if (err) return console.log(err)
+      res.render('feed.ejs', {
+        name : userResult.name,
+        posts: userResult,
+        comment: rslt
+      })
+    })
+  })
+});
+
+// app.get('/feed', function(req, res) {
   
 
-  res.render('feed.ejs')
+//   res.render('feed.ejs')
 
 
-});
+// });
 
 
 

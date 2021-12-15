@@ -4,27 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
     <link rel="stylesheet" href="font-awesome.min.css">
-    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="/css/profile.css">
     <title>Hair Share</title>
 </head>
 <body>
-  <a href="/feed" class="btn btn-default btn-sm">Feed</a>
-  <h1>hello my, <%= name%></h1>
-  <img src="<%= picture%>" alt="">
+  <header>
+    <ul>
+      <li>
+        <a href="/signUpQuiz" class="navItem">Home</a>
+      </li>
+      <li>
+        <a href="/feed" class="navItem">Feed</a>
+      </li>
+      <!-- <li>
+        <a class="navItem" href="p.ejs
+        "></a>Profile</li>
+      <li> -->
+        <li>
+          <a href="/logout" class="navItem">Logout</a>
+        </li>
+    </ul>
+  </header>
+  
+  <section class="profileSection">
+    <section class="profileAvi">
+      <img src="<%= picture%>" alt="">
+    </section>
+    <section class="profileName">
+      <h1>Hello <%= name%> ! </h1>
+    </section>
+  </section>
 
-  <div class="col-sm-6">
-    <h3>Post a hair pic</h3>
-    <form action"/createPost" method="post" id="createPost" enctype="multipart/form-data">
+ 
+
+  <div class="col-sm-6 " >
+
+    <!-- <h3>Post a hair pic</h3> -->
+    <form action="/createPost" method="post" id="createPost" class="createPost" enctype="multipart/form-data">
       <div>
-        <label for="postImage">Add a hair post</label>
-        <input name="postImage" type="file" placeholder="Upload Image">
+        <label for="postImage"><h3>Add A Hair Post</h3></label>
+        <label for="details"></label>
+          <input type="text"  class="style" placeholder="Tell about your style">
+        <input name="postImage" class="uploadImage" type="file" placeholder="Upload Your Image">
       </div>
-        <div>
+        <!-- <div>
           <label for="details"></label>
           <input type="text" placeholder="Tell about your style">
-        </div>
-        <button type="submit">Post</button>
+        </div> -->
+        <button class="submitButton" type="submit">Post</button>
     </form>
 </div>
 
