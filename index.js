@@ -193,7 +193,7 @@ upload.single('postImage'),(req, res) => {
     console.log(obj)
     console.log("info from form", req.body);
     console.log("user info", req.oidc.user);
-    console.log("img info", req.file);
+    console.log("img info", req.files);
 
     db.collection('userData').find( {email: req.oidc.user.email}).toArray((err, userResult) => {
       console.log("userResult", userResult);
@@ -219,3 +219,71 @@ upload.single('postImage'),(req, res) => {
     console.log('saved to database')
     res.redirect('/feed')
   })
+
+    // COMMENTS SECTION
+  
+    app.post('/feed', function(req, res) {
+      console.log('comments', req.body)
+      console.log('req.oidc.user_id', req.oidc.user)
+      db.collection('comments').insertOne({
+        comments: req.body.Comment,
+        userEmail: req.oidc.user.email,
+
+      
+      }, (err, result)=>{
+          if(err)return(console.log(err))
+          console.log(result)
+      
+          db.collection('comments').findOne({_id: result.insertedId}, (e, userResult)=> {
+            db.collection('posts').findOne({userEmail: userResult.userEmail}, (er, myData)=> {
+              console.log(myData)
+              res.render('feed.ejs',{
+                posts : myData.imgPath,
+                comments: userResult.comments
+              })
+  
+            })
+            console.log(userResult)
+          })
+          
+        })
+      });
+
+  // app.post('/createComment', (req, res) => {
+  //     const comingFromPage = req.headers['referer'].slice(req.headers['origin'].length);
+  //     db.collection('comments').insertOne({
+
+  //         comment: req.body.comment, 
+  //         poster: req.user._id, 
+  //         post: req.body.postId,
+  //         timestamp: req.body.timestamp
+  //     }, (err, result) => {
+  //         if (err) return res.send(err);
+  //         console.log('Comment Created');
+  //         res.redirect(comingFromPage);
+  //     })
+  // })
+  app.delete('/delComment', (req, res) => {
+      db.collection('comments').findOneAndDelete({
+        comment: req.body.comment,
+        poster: req.user._id,
+        post: req.body.postId
+        }, (err, result) => {
+        if (err) return res.send(500, err)
+        res.send('Message deleted!')
+      })
+    })
+
+    app.get('/post', function(req, res) {
+  db.collection('posts').find().toArray((err, userResult) => {
+    db.collection('comments').find().toArray((error, rslt) => {
+      if (err) return console.log(err)
+      res.render('feed.ejs', {
+        name : userResult.name,
+        posts: userResult,
+        comment: rslt
+      })
+    })
+  })
+});
+

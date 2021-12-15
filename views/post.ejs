@@ -19,11 +19,10 @@
                 <input class="submitComment" type="submit" value=">">
                 <button class="cancel">Cancel</button>
             </form>
-        <% for(i = comments.length-1; i > 0; i--) { %>
-            <% if (comments[i].post == post._id) { %>
-                <p class="comments"><%= comments[i].comment%> | <span><%= comments[i].timestamp %></span></p>
-            <% } %>
-        <% } %>
+            <!-- <% if (comments[i].post == post._id) { %>
+                <p class="comments"><%= comments[i].comment%> | <span><%= comments[i].logTime %></span></p>
+            <% } %> -->
+
     </div>
     <script  src="post.js"></script>
 </body>

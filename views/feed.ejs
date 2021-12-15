@@ -38,18 +38,22 @@
             <input type="submit" value="Post This">
         </form>
         <ul id="feed">
-            <% for (var i=0; i<posts.length; i++) {%>
             <li class="post">
-                <a href="/post?id=<%=posts[i]._id%>"><img class="picture" src="<%=posts[i].picture %>"></a>
-                
+                <a href="#">
+                  <img class="picture" src="<%=posts %>">
+                </a>
+                <p>
+                  <% if (comments) { %>
+                    <h2><%= comments %></h2>
+                  <% } %>
+                </p>
                 <button class="commentBox">Comment</button>
-                    <form class="commentHide">
-                        <input class="text" type="text">
+                    <form action="/feed" method="post" class="commentHide">
+                        <input name="Comment" class="text" type="text">
                         <input class="submitComment" type="submit" value=">">
                         <button class="cancel">Cancel</button>
                     </form>
             </li>    
-           <% } %>
         </ul>
 
     </div>
