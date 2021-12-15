@@ -101,15 +101,6 @@ app.get("/signUpQuiz", requiresAuth(), async (req, res) => {
   res.render("signUpQuiz.ejs");
 });
 
-// app.get("/login", requiresAuth(), (req, res) =>{
-//
-//   res.render("/profile")
-// })
-
-// app.get('/login', (req, res) => {
-//   console.log(`${req.oidc.user.name} has logged in`);
-//   res.oidc.login({ returnTo: '/profile' })
-// })
 
 // app.put("/", (req, res) => {});
 //
