@@ -41,9 +41,6 @@ app.use(
     clientID: process.env. CLIENT_ID,
     secret: process.env.SECRET,
     idpLogout: true,
-    routes: {
-      callback: "/signUpQuiz"
-    }
   })
 );
 
