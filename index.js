@@ -127,8 +127,7 @@ app.get("/signUpQuiz", requiresAuth(), async (req,  res) => {
 });
 
 app.get('/customLogin', (req, res) =>{
-  //
-  req.oidc.login({returnTo: '/signUpQuiz'})
+  res.oidc.login({returnTo: '/signUpQuiz'})
 })
 
 // app.put("/", (req, res) => {});
