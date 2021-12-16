@@ -126,6 +126,11 @@ app.get("/signUpQuiz", requiresAuth(), async (req,  res) => {
   res.render("signUpQuiz.ejs");
 });
 
+app.get('/customLogin', (req, res) =>{
+  //
+  req.oidc.login({returnTo: '/signUpQuiz'})
+})
+
 // app.put("/", (req, res) => {});
 //
 // app.delete("/", (req, res) => {});
