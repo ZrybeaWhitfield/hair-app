@@ -47,6 +47,10 @@
                       <section>
                         <h4>Comments</h4>
                         <span><%= posts[i].comments %></span>
+                        <form class="" action="/delComment" method="post">
+                          <input style="display: none;" type="text" name="postID" value="<%= posts[i]._id%>">
+                        <button class="" type="submit">Delete</button>
+                        </form>
                       </section>
                       <section>
                         <h3>Add a comment</h3>
@@ -60,11 +64,6 @@
                     </section>
 
                     <% } %>
-
-
-                  <% if (comments) { %>
-                    <h2>Hi</h2>
-                  <% } %>
                 </section>
 
 

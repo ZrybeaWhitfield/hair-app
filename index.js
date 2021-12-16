@@ -40,7 +40,10 @@ app.use(
     baseURL: process.env.BASE_URL,
     clientID: process.env. CLIENT_ID,
     secret: process.env.SECRET,
-    idpLogout: true
+    idpLogout: true,
+    routes: {
+      callback: "/signUpQuiz"
+    }
   })
 );
 
@@ -105,20 +108,18 @@ async function main(){
 }
 
 main()
-  .catch(console.error)
+.catch(console.error)
 
 
 //GET REQUESTS
 // *** GET Routes - display pages ***
-    // Root Route
+// Root Route
 
 app.get("/", function (req, res) {
   res.render("index.ejs");
 });
 
-app.get("/signUpQuiz", requiresAuth(), async (req, res) => {
-  // console.log(req.oidc.user);
-  //check to findOne req.oidc.email => if it exists redirect to profile else render quiz
+app.get("/signUpQuiz", requiresAuth(), async (req,  res) => {
   const user = await db.collection('userData').findOne( {email: req.oidc.user.email})
 
   if(user){
@@ -128,22 +129,14 @@ app.get("/signUpQuiz", requiresAuth(), async (req, res) => {
   res.render("signUpQuiz.ejs");
 });
 
-// app.get("/login", requiresAuth(), (req, res) =>{
-//
-//   res.render("/profile")
-// })
-
-// app.get('/login', (req, res) => {
-//   console.log(`${req.oidc.user.name} has logged in`);
-//   res.oidc.login({ returnTo: '/profile' })
-// })
-
 // app.put("/", (req, res) => {});
 //
 // app.delete("/", (req, res) => {});
 
 app.get('/profile', function(req, res) {
-  db.collection('userData').find( {email: req.oidc.user.email}).toArray((err, userResult) => {
+  db.collection('userData')
+    .find( {email: req.oidc.user.email})
+    .toArray((err, userResult) => {
 
     if(err) return console.log(err);
     // console.log(userResult)
@@ -158,13 +151,8 @@ app.get('/profile', function(req, res) {
       hairPorosity: userResult[0].hairPorosity,
       hairLength: userResult[0].hairLength,
       hairGoals: userResult[0].hairGoals
-      // posts: result
-    }
-    )
+    })
   })
-
-
-
 });
 
 app.get('/feed', function(req, res) {
@@ -193,52 +181,52 @@ app.get('/feed', function(req, res) {
 app.post('/profile',
 upload.single('postImage'),(req, res) => {
   const obj = JSON.parse(JSON.stringify(req.body));
-    console.log(obj)
-    console.log("info from form", req.body);
-    console.log("user info", req.oidc.user);
-    console.log("img info", req.files);
+  console.log(obj)
+  console.log("info from form", req.body);
+  console.log("user info", req.oidc.user);
+  console.log("img info", req.files);
 
-    db.collection('userData').find( {email: req.oidc.user.email}).toArray((err, userResult) => {
-      console.log("userResult", userResult);
+  db.collection('userData').find( {email: req.oidc.user.email}).toArray((err, userResult) => {
+    console.log("userResult", userResult);
 
-      db.collection('posts').insertOne({
-        userId : userResult[0]._id,
-        userName : req.oidc.user.name,
-        userEmail : req.oidc.user.email,
-        userPicture : req.oidc.user.picture,
-        postCaption : obj.postDetails,
-        imgFileName : req.file.filename,
-        imgDest : req.file.destination,
-        imgPath : req.file.path,
-        hairType : userResult[0].hairType,
-        hairDensity : userResult[0].hairDensity,
-        hairPorosity : userResult[0].hairPorosity,
-        hairLength : userResult[0].hairLength,
-        hairGoals : userResult[0].hairGoals,
+    db.collection('posts').insertOne({
+      userId : userResult[0]._id,
+      userName : req.oidc.user.name,
+      userEmail : req.oidc.user.email,
+      userPicture : req.oidc.user.picture,
+      postCaption : obj.postDetails,
+      imgFileName : req.file.filename,
+      imgDest : req.file.destination,
+      imgPath : req.file.path,
+      hairType : userResult[0].hairType,
+      hairDensity : userResult[0].hairDensity,
+      hairPorosity : userResult[0].hairPorosity,
+      hairLength : userResult[0].hairLength,
+      hairGoals : userResult[0].hairGoals,
 
-      })
     })
-
-    console.log('saved to database')
-    res.redirect('/feed')
   })
 
-    // COMMENTS SECTION
+  console.log('saved to database')
+  res.redirect('/feed')
+})
 
-    app.post('/feed', function(req, res) {
-      console.log('comments', req.body)
-      db.collection('posts').findOneAndUpdate(
-        {_id:ObjectId(req.body.postID)},
-        {
-          $set: {
-          comments: req.body.comment
-          }
-        },
-        {"upsert": true}, (err, result) => {
-        if (err) return console.log(err)
-      })
-      res.redirect("/feed")
-    });
+// COMMENTS SECTION
+
+app.post('/feed', function(req, res) {
+  console.log('comments', req.body)
+  db.collection('posts').findOneAndUpdate(
+    {_id:ObjectId(req.body.postID)},
+    {
+      $set: {
+        comments: req.body.comment
+      }
+    },
+    {"upsert": true}, (err, result) => {
+      if (err) return console.log(err)
+    })
+    res.redirect("/feed")
+  });
 
   // app.post('/createComment', (req, res) => {
   //     const comingFromPage = req.headers['referer'].slice(req.headers['origin'].length);
@@ -255,25 +243,25 @@ upload.single('postImage'),(req, res) => {
   //     })
   // })
   app.delete('/delComment', (req, res) => {
-      db.collection('comments').findOneAndDelete({
-        comment: req.body.comment,
-        poster: req.user._id,
-        post: req.body.postId
-        }, (err, result) => {
-        if (err) return res.send(500, err)
-        res.send('Message deleted!')
-      })
-    })
-
-    app.get('/post', function(req, res) {
-  db.collection('posts').find().toArray((err, userResult) => {
-    db.collection('comments').find().toArray((error, rslt) => {
-      if (err) return console.log(err)
-      res.render('feed.ejs', {
-        name : userResult.name,
-        posts: userResult,
-        comment: rslt
-      })
+    db.collection('comments').findOneAndDelete({
+      comment: req.body.comment,
+      poster: req.user._id,
+      post: req.body.postId
+    }, (err, result) => {
+      if (err) return res.send(500, err)
+      res.send('Message deleted!')
     })
   })
-});
+
+  app.get('/post', function(req, res) {
+    db.collection('posts').find().toArray((err, userResult) => {
+      db.collection('comments').find().toArray((error, rslt) => {
+        if (err) return console.log(err)
+        res.render('feed.ejs', {
+          name : userResult.name,
+          posts: userResult,
+          comment: rslt
+        })
+      })
+    })
+  });
