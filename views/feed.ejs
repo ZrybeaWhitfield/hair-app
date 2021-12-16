@@ -5,25 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="font-awesome.min.css">
-    <link rel="stylesheet" href="public/css/">
+    <link rel="stylesheet" href="css/">
     <title>Hair Share</title>
 </head>
 <body>
     <header>
         <ul>
           <li>
-            <a href="/signUpQuiz" class="navItem">Home</a>
+            <a href="/" class="navItem">Home</a>
           </li>
           <li>
-            <a href="/feed" class="navItem">Feed</a>
+            <a href="/profile" class="navItem">Profile</a>
           </li>
-          <!-- <li>
-            <a class="navItem" href="p.ejs
-            "></a>Profile</li>
-          <li> -->
-            <li>
-              <a href="/logout" class="navItem">Logout</a>
-            </li>
+          <li>
+            <a href="/logout" class="navItem">Logout</a>
+          </li>
         </ul>
       </header>
     <div class="page-header text center">
@@ -33,24 +29,43 @@
     </div>
 
     <div class="col-sm-6">
-        <form id="createPost">
-            <input type="file" class="picture" name="file-to-upload">
-            <input type="submit" value="Post This">
-        </form>
-        <ul id="feed">
-            <% for (var i=0; i<posts.length; i++) {%>
-            <li class="post">
-                <a href="/post?id=<%=posts[i]._id%>"><img class="picture" src="<%=posts[i].picture %>"></a>
-                
-                <button class="commentBox">Comment</button>
-                    <form class="commentHide">
-                        <input class="text" type="text">
-                        <input class="submitComment" type="submit" value=">">
-                        <button class="cancel">Cancel</button>
-                    </form>
-            </li>    
-           <% } %>
-        </ul>
+
+                <section>
+                  <% for(let i=0; i <posts.length; i++) { %>
+                    <section>
+                      <img src=" <%= posts[i].imgPath%> " alt="">
+
+                      <p><%= posts[i].userName %></p>
+                      <p><%= posts[i].postCaption %></p>
+                      <section>
+                        <h4>Hair Type</h4>
+                        <p>Hair type: <%= posts[i].hairType %></p>
+                        <p>Hair Densit: <%= posts[i].hairDensity %></p>
+                        <p>hair Length: <%= posts[i].hairLength %></p>
+
+                      </section>
+                      <section>
+                        <h4>Comments</h4>
+                        <span><%= posts[i].comments %></span>
+                        <form class="" action="/delComment" method="post">
+                          <input style="display: none;" type="text" name="postID" value="<%= posts[i]._id%>">
+                        <button class="" type="submit">Delete</button>
+                        </form>
+                      </section>
+                      <section>
+                        <h3>Add a comment</h3>
+                        <form action="/feed" method="post" class="commentHide">
+                        <input name="comment" class="text" type="text" placeholder="Comment">
+                        <input style="display: none;" type="text" name="postID" value="<%= posts[i]._id%>">
+
+                        <button class="" type="submit">Add</button>
+                        </form>
+                      </section>
+                    </section>
+
+                    <% } %>
+                </section>
+
 
     </div>
     <script src="feed.js"></script>
